@@ -1,145 +1,182 @@
-# intune-windows11-enterprise-lifecycle
-This document defines a production-grade, end-to-end lifecycle model for managing Windows 11 enterprise devices using Microsoft Intune integrated with Microsoft Entra ID. It is written for senior endpoint engineers, security architects, and auditors and aligns with Microsoft MD-102/AZ-104 expectations.
+# Windows 11 Enterprise Device Lifecycle (Microsoft Intune)
 
-1. Lifecycle Overview (Authoritative Model)
-The lifecycle is divided into eight deterministic phases, each with explicit ownership, controls, and exit criteria:
+## Executive Overview
 
-Procurement & Registration
-Identity Binding & Trust Establishment
-Provisioning (Autopilot)
-Configuration & Hardening
-Application Lifecycle Management
-Compliance, Monitoring & Operations
-Change, Repair & Reassignment
-Decommissioning & Data Sanitization
+This repository documents a **production-grade, enterprise-ready Windows 11 endpoint architecture** built on **Microsoft Intune** and aligned to **Zero Trust security principles**. It demonstrates full ownership of the **device lifecycle**—from procurement and provisioning through secure decommissioning and legal hold—using defensible, auditable, and repeatable patterns.
 
-This model enforces zero-touch deployment, least privilege, and continuous compliance.
+The content is written to withstand scrutiny from:
 
-2. Procurement & Registration
-Objective: Ensure devices are known, trusted, and governed before first boot.
-Controls
+* Principal and Staff Engineers
+* Security, Risk, and Audit teams
+* Legal and Compliance stakeholders
+* Procurement and vendor-management reviewers
+* Senior technical interview panels
 
-OEM or reseller uploads Windows Autopilot hardware hashes
+This is **not a lab** or a conceptual design. It is an **operator-grade implementation** suitable for real enterprise environments.
 
-Devices assigned to:
-Deployment profile
-Enrollment Status Page (ESP)
-Group tags (e.g., WIN11-CORP-STD)
+---
 
-Outputs
-Device appears in Intune as Autopilot registered
-No local user access possible prior to enrollment
+## Architecture Objectives
 
-Risk Mitigated
-Shadow IT
-Unauthorized OS provisioning
+The architecture is designed to ensure that:
 
-3. Identity Binding & Trust Establishment
-Objective: Bind device identity to corporate identity with cryptographic trust.
+* No device accesses corporate resources unless it is **identified, compliant, and low-risk**
+* No administrator can act outside **approved scope and role**
+* All actions are **logged, attributable, and exportable**
+* Legal-hold and evidence-preservation requirements override IT operations by design
+* The solution scales linearly without increasing operational complexity
 
-Key Decisions
-Microsoft Entra ID Join (recommended)
-Certificate-based trust via TPM 2.0
-Optional Windows Hello for Business (cloud trust)
-Security Outcomes
-Device object created in Entra ID
+---
 
-Conditional Access evaluates device state, not just user
+## Platform & Technologies
 
-4. Provisioning (Windows Autopilot)
-Objective: Zero-touch deployment with policy-driven outcomes.
-Process
+**Core Platforms**
 
-User signs in with corporate identity
+* Microsoft Intune (Endpoint Management)
+* Microsoft Entra ID (Identity & Conditional Access)
+* Microsoft Defender for Endpoint (Threat & Risk Signals)
+* Microsoft Purview (Legal Hold & eDiscovery)
 
-Autopilot enforces:
-Device naming convention
-Enrollment Status Page blocking
-Required security baselines
-Hard Requirements
-BitLocker enabled
-Defender AV & ASR rules applied
-No local admin persistence (except controlled break-glass)
-Exit Criteria
-Device reports Compliant
-ESP completes successfully
+**Endpoint Platform**
 
-5. Configuration & Hardening
-Objective: Enforce security, OS, and UX standards consistently.
-Policy Domains
-Security Baselines (Windows 11)
-Endpoint Protection (Defender, Firewall, ASR)
-Device Configuration (CSP-based)
-Update Rings (WUfB)
-Operational Principle
+* Windows 11 (Enterprise)
 
-Configuration is immutable by users, auditable by security, and reversible by IT.
+**Security Model**
 
-6. Application Lifecycle Management
-Objective: Deliver, update, and retire software safely.
-Application Types
-Win32 (LOB)
-Microsoft Store (new)
-Microsoft 365 Apps
-Controls
-Detection rules (authoritative)
-Dependencies & supersedence
-Assignment by Entra ID groups (dynamic where possible)
-Operational Standard
+* Zero Trust
+* Least Privilege
+* Assume Breach
+* Continuous Verification
 
-All apps are:
-Versioned
-Detectable
-Removable
-Logged
+---
 
-7. Compliance, Monitoring & Operations
-Objective: Maintain continuous assurance.
+## Lifecycle Coverage
 
-Compliance Signals
+This repository covers the **entire enterprise endpoint lifecycle**:
 
-OS version
-Encryption state
-Defender health
-Secure Boot / TPM
-Integrations
-Conditional Access (block non-compliant devices)
-Endpoint analytics
-Audit logs retained per policy
-Expected Outcomes
-Near-real-time visibility
-Automated access revocation on drift
+1. **Procurement & Autopilot Registration**
+2. **Identity Binding (Entra ID Join)**
+3. **Zero-Touch Provisioning (Windows Autopilot)**
+4. **Security Baseline & Hardening**
+5. **Application Lifecycle Management (Win32)**
+6. **Compliance & Conditional Access Enforcement**
+7. **Monitoring, Reporting & Operations**
+8. **RBAC, Governance & Scope Control**
+9. **Device Decommissioning, Wipe & Disposal**
+10. **Legal Hold, Evidence Preservation & Chain of Custody**
+11. **Audit Validation & Control Mapping**
+12. **Commercial Delivery & Fixed-Fee SOW Model**
 
-8. Change, Repair & Reassignment
-Objective: Safely handle device lifecycle events without data loss or security erosion.
+Each phase includes:
 
-Scenarios
-Hardware repair
-User change
-Role change
-Controls
-Autopilot Reset (where applicable)
-Device reassignment with policy re-evaluation
-No manual reconfiguration
+* Exact Intune UI click-paths
+* Field-by-field configuration standards
+* Validation steps and expected outcomes
+* Common failure points and remediation guidance
 
-9. Decommissioning & Data Sanitization
-Objective: Ensure secure exit with zero residual risk.
-Approved Actions
-Retire – corporate data removed, device remains usable
-Wipe – full data destruction, device reset to OOBE
-Audit Requirements
-Wipe confirmation logged
+---
 
-Device object removed from:
-Intune
-Entra ID
+## Repository Structure
 
-Autopilot (if disposed)
+The repository is organized for **clarity, auditability, and reuse**:
 
-10. Operational & Audit Considerations
-Area	Control
-RBAC	Intune roles scoped by function
-Logging	Unified Audit Log + Intune logs
-Change Mgmt	Version-controlled policy changes
-DR	Re-enrollment tested quarterly
-Legal Hold	eDiscovery-compatible data handling
+```
+intune-windows11-enterprise-lifecycle/
+│
+├── 01-architecture/
+├── 02-governance-rbac/
+├── 03-enrollment-autopilot/
+├── 04-security-baseline/
+├── 05-compliance-access/
+├── 06-applications/
+├── 07-monitoring-operations/
+├── 08-decommissioning-legal/
+├── 09-validation-control-mapping/
+├── 10-commercial-delivery/
+└── templates/
+```
+
+Each directory is **self-contained** and can be reviewed independently by auditors, engineers, or clients.
+
+---
+
+## Governance & Security Posture
+
+**Key Guarantees**
+
+* No standing Global Administrator dependency
+* RBAC enforced with scope tags to limit blast radius
+* Compliance is a **binary access gate**, not a reporting metric
+* Defender risk signals directly influence access decisions
+* Legal hold prevents destructive actions by design
+
+**Audit Readiness**
+
+* All configuration changes are logged
+* Evidence is produced automatically, not reconstructed
+* Control mappings align to ISO 27001, SOC 2, and NIST
+
+---
+
+## Intended Audience
+
+This repository is designed for:
+
+* Senior Endpoint Engineers
+* Azure / Intune Architects
+* Security Architects
+* Audit & Compliance professionals
+* Hiring managers evaluating senior candidates
+* Clients seeking enterprise endpoint modernization
+
+It assumes familiarity with Microsoft 365 and enterprise IT concepts.
+
+---
+
+## How This Is Used
+
+**Portfolio / Interview Review**
+
+* Demonstrates architectural judgment and ownership
+* Shows security-first, audit-aware design
+* Suitable for senior-level technical interviews
+
+**Client Delivery**
+
+* Can be used as a delivery artifact
+* Supports fixed-fee consulting engagements
+* Accompanied by SOW, pricing, and SOPs
+
+**Internal Reference**
+
+* Serves as an operational knowledge base
+* Supports onboarding and handoff
+
+---
+
+## Disclaimers
+
+* No customer data, tenant identifiers, or secrets are included
+* All examples use generic naming
+* This repository does not grant permission to access any live systems
+* Microsoft licensing decisions are client-owned
+
+---
+
+## Author’s Statement
+
+This repository reflects how I design, deliver, and defend **real enterprise endpoint environments**. Every control, configuration, and governance decision is intentional, documented, and defensible.
+
+If you are reviewing this as part of an interview, promotion packet, or client evaluation, you are seeing **how I operate in production**—not a simplified example.
+
+---
+
+## Contact / Next Steps
+
+If you would like:
+
+* A senior-panel interview
+* A live architectural walkthrough
+* A fixed-fee proposal based on this model
+
+This repository is designed to support those conversations directly.
