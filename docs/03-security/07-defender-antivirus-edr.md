@@ -246,7 +246,7 @@ A device without Defender is **not secure**.
 
 Proceed to:
 
-➡ **`docs/03-security/08-asr-rules.md`**
+**`docs/03-security/08-asr-rules.md`**
 
 This file defines **Attack Surface Reduction (ASR) rule enforcement and tuning**.
 
