@@ -219,6 +219,6 @@ A device without a firewall is **not secure**.
 
 Proceed to:
 
-➡ **`docs/03-security/enforcement-order.md`**
+**`docs/03-security/enforcement-order.md`**
 
 This file defines the **authoritative order in which security controls are applied and enforced**.
