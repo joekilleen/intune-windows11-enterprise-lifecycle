@@ -159,3 +159,90 @@ flowchart TD
   F -->|Yes| G["Access blocked"]
   B -->|No| H["Immediate access block"]
   H --> I["Reset or wipe"]
+```
+---
+
+## Reset vs Wipe Decision Matrix
+
+| Scenario               | Action           |
+| ---------------------- | ---------------- |
+| Policy drift           | Autopilot Reset  |
+| App corruption         | Autopilot Reset  |
+| OS instability         | Wipe + re-enroll |
+| Suspected compromise   | Wipe             |
+| Hardware trust failure | Replace device   |
+
+Rule
+If in doubt, wipe.
+
+---
+
+## User Communication Guidance
+
+User messaging must be:
+
+Non-technical
+
+Action-oriented
+
+Non-negotiable
+
+Example
+
+“Your device no longer meets security requirements and access has been restricted.
+IT will reset or replace this device to restore access.”
+
+---
+
+## Evidence and Audit Trail
+### Each remediation event must produce:
+
+| Evidence              | Source               |
+| --------------------- | -------------------- |
+| Non-compliance reason | Intune device status |
+| Remediation attempt   | Device timeline      |
+| Access block          | Entra sign-in logs   |
+| Reset/Wipe action     | Intune audit logs    |
+
+---
+
+## Metrics and Operational Health
+### Recommended KPIs:
+
+| Metric                        | Target          |
+| ----------------------------- | --------------- |
+| Auto-remediation success rate | >90%            |
+| Mean time to compliance       | <24 hours       |
+| Repeat offenders              | <5%             |
+| Manual interventions          | Declining trend |
+
+---
+
+## Change Control
+### Remediation workflow changes:
+
+Require security and operations approval
+
+Must be tested in Pilot
+
+Must be documented in the Decision Log
+
+Must not weaken enforcement
+
+---
+
+## Summary
+
+Remediation workflows are the operational backbone of compliance enforcement.
+
+They ensure that:
+
+Security posture is continuously restored
+
+Risk is contained quickly
+
+Human error is minimized
+
+Audit evidence is always available
+
+A device that cannot be remediated does not belong in production.
