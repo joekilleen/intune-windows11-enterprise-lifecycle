@@ -211,6 +211,6 @@ A device without BitLocker is **not trusted**.
 
 Proceed to:
 
-➡ **`docs/03-security/07-defender-antivirus-edr.md`**
+**`docs/03-security/07-defender-antivirus-edr.md`**
 
 This file defines **malware protection and endpoint detection and response (EDR)**.
