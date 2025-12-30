@@ -268,6 +268,6 @@ Strict Win32 packaging standards are the difference between:
 
 Proceed to:
 
-➡ docs/05-applications/14-required-vs-available-apps.md
+docs/05-applications/14-required-vs-available-apps.md
 
 This file defines assignment strategy, user experience boundaries, and ESP protection rules.
