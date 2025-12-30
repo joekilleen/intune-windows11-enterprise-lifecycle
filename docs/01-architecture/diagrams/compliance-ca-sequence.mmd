@@ -1,0 +1,35 @@
+sequenceDiagram
+  %% Windows 11 Intune Enterprise Device Lifecycle — Compliance & Conditional Access Sequence
+  %% Authoritative enforcement loop for repository documentation.
+
+  participant User as User
+  participant Device as Windows 11 Device
+  participant Intune as Microsoft Intune (MDM)
+  participant Entra as Microsoft Entra ID (Identity)
+  participant CA as Conditional Access
+  participant App as Microsoft 365 / Cloud App
+
+  Note over Device,Intune: Device is Entra ID joined and enrolled in Intune.
+
+  Device->>Intune: Report device posture (encryption, OS version, Defender health, Secure Boot, TPM)
+  Intune->>Intune: Evaluate compliance policy signals
+  Intune-->>Entra: Publish compliance state (Compliant / Non-compliant)
+
+  User->>App: Attempt sign-in / access request
+  App->>Entra: Authenticate user
+  Entra->>CA: Evaluate Conditional Access policies (Windows platform + require compliant device)
+
+  alt Device Compliant
+    CA-->>Entra: Grant controls satisfied
+    Entra-->>App: Token issued
+    App-->>User: Access granted
+  else Device Non-compliant
+    CA-->>Entra: Grant controls not satisfied (blocked)
+    Entra-->>App: Access denied
+    App-->>User: Blocked — device must be compliant
+  end
+
+  Note over Device,Intune: Remediation occurs via Intune policies and required configurations.
+  Device->>Intune: Sync + receive remediation policies (BitLocker/Defender/Firewall/ASR/Updates)
+  Intune->>Intune: Re-evaluate compliance
+  Intune-->>Entra: Update compliance state
