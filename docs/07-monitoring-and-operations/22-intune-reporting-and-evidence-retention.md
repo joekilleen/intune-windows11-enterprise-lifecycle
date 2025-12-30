@@ -225,10 +225,5 @@ With this document, **Section 7 — Monitoring & Operations** is **complete and 
 
 ---
 
-## Next Section
 
-Proceed to:
 
-**`docs/08-device-lifecycle-operations/23-device-reset-reassignment.md`**
-
-This section defines **device lifecycle actions: reset, reassignment, refresh, and decommissioning**.
