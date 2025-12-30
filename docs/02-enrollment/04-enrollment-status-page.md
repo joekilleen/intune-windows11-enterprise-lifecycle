@@ -226,6 +226,6 @@ ESP must remain **strict, predictable, and boring**.
 
 Proceed to:
 
-➡ **`docs/03-security/05-security-baselines.md`**
+**`docs/03-security/05-security-baselines.md`**
 
 This file defines the **baseline security posture** enforced immediately after enrollment.
