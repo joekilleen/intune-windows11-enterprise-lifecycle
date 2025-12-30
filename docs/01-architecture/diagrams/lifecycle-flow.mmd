@@ -1,0 +1,96 @@
+flowchart TB
+  %% Windows 11 Intune Enterprise Device Lifecycle — High-Level Flow
+  %% Authoritative lifecycle diagram for repository documentation.
+
+  subgraph P0["Phase 0 — Procurement & Readiness"]
+    P0A["Corporate-owned Windows 11 capable hardware"]
+    P0B["UEFI + Secure Boot enabled"]
+    P0C["TPM 2.0 present and enabled"]
+    P0D["Autopilot hardware hash registered"]
+    P0E["Device assigned Autopilot profile via dynamic group"]
+    P0A --> P0B --> P0C --> P0D --> P0E
+  end
+
+  subgraph P1["Phase 1 — Enrollment (Autopilot + ESP)"]
+    P1A["First boot (OOBE)"]
+    P1B["Autopilot identifies device + downloads profile"]
+    P1C["User authentication (Entra ID)"]
+    P1D["Entra ID Join completed"]
+    P1E["Intune MDM enrollment completed"]
+    P1F["Enrollment Status Page (ESP) starts (blocking)"]
+    P1A --> P1B --> P1C --> P1D --> P1E --> P1F
+  end
+
+  subgraph P2["Phase 2 — Security Baseline & Hardening"]
+    P2A["Windows 11 Security Baseline applied"]
+    P2B["Defender baseline / AV policy applied"]
+    P2C["EDR onboarding (Defender for Endpoint) applied"]
+    P2D["Firewall policy applied"]
+    P2E["ASR policy applied (Audit → Block via rings)"]
+    P2F["BitLocker encryption enforced + recovery key escrow"]
+    P2A --> P2B --> P2C --> P2D --> P2E --> P2F
+  end
+
+  subgraph P3["Phase 3 — Applications (Win32 Lifecycle)"]
+    P3A["IME installs required ESP-safe apps (System context)"]
+    P3B["Detection rules validate install state"]
+    P3C["Dependencies enforced (explicit)"]
+    P3D["Supersedence controls upgrades + rollbacks"]
+    P3E["Optional apps published as Available in Company Portal"]
+    P3A --> P3B --> P3C --> P3D --> P3E
+  end
+
+  subgraph P4["Phase 4 — Compliance + Access Enforcement"]
+    P4A["Compliance policy evaluates device state"]
+    P4B["Compliance state published to Entra ID"]
+    P4C["Conditional Access requires compliant device"]
+    P4D["Access granted if compliant; blocked if non-compliant"]
+    P4A --> P4B --> P4C --> P4D
+  end
+
+  subgraph P5["Phase 5 — Updates & Servicing (WUfB)"]
+    P5A["Update rings (Pilot → Broad → Enterprise)"]
+    P5B["Quality updates deployed per ring deferrals/deadlines"]
+    P5C["Feature update policy pins target Windows version"]
+    P5D["Driver update policy governs drivers/firmware rollout"]
+    P5E["Restart deadlines enforce completion"]
+    P5A --> P5B --> P5C --> P5D --> P5E
+  end
+
+  subgraph P6["Phase 6 — Monitoring & Operations"]
+    P6A["Endpoint Analytics (performance + reliability)"]
+    P6B["Intune reporting (policy/app/update status)"]
+    P6C["Defender signals (alerts, exposure, device health)"]
+    P6D["Evidence retention + exports"]
+    P6E["Operational actions (Sync, Reset, Wipe)"]
+    P6A --> P6B --> P6C --> P6D --> P6E
+  end
+
+  subgraph P7["Phase 7 — Reassignment / Decommission"]
+    P7A["Reassignment: Autopilot Reset"]
+    P7B["Refresh: Wipe + Autopilot re-enroll"]
+    P7C["Decommission: Wipe (crypto) + Autopilot deregister"]
+    P7D["Delete device records + archive evidence"]
+    P7A --> P7D
+    P7B --> P7D
+    P7C --> P7D
+  end
+
+  %% Primary end-to-end flow
+  P0E --> P1A
+  P1F --> P2A
+  P2F --> P3A
+  P3E --> P4A
+  P4D --> P5A
+  P5E --> P6A
+  P6E --> P7A
+
+  %% Fail-closed branch (conceptual)
+  F0["Fail Closed: Enrollment/Security/Compliance failure"]
+  P1F -.-> F0
+  P2F -.-> F0
+  P4D -.-> F0
+
+  %% Recovery loop
+  F0 --> R0["Recovery: Reset/Wipe → Re-enroll"]
+  R0 --> P1A
