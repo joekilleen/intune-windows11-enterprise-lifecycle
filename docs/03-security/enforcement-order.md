@@ -280,6 +280,6 @@ Deviation from this order introduces risk and is not permitted without formal ex
 
 Proceed to:
 
-➡ **`docs/04-compliance-and-access/10-compliance-policies.md`**
+**`docs/04-compliance-and-access/10-compliance-policies.md`**
 
 This file defines the **exact compliance signals and remediation logic** used for Conditional Access enforcement.
