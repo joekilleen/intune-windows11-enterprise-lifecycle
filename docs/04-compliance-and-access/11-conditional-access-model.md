@@ -287,6 +287,6 @@ Correct CA design ensures that **only healthy devices operated by verified users
 
 Proceed to:
 
-➡ **`docs/05-applications/12-application-lifecycle-architecture.md`**
+**`docs/05-applications/12-application-lifecycle-architecture.md`**
 
 This file defines the **Win32 application packaging, deployment, and versioning model**.
