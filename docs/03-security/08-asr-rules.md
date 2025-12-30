@@ -206,6 +206,6 @@ Correctly implemented ASR makes exploitation **difficult, noisy, and costly** fo
 
 Proceed to:
 
-➡ **`docs/03-security/09-firewall.md`**
+**`docs/03-security/09-firewall.md`**
 
 This file defines **host-based firewall enforcement and network isolation controls**.
