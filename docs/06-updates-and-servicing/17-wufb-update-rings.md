@@ -223,6 +223,6 @@ They are **part of the security baseline**.
 
 Proceed to:
 
-➡ **`docs/06-updates-and-servicing/18-feature-update-policy.md`**
+**`docs/06-updates-and-servicing/18-feature-update-policy.md`**
 
 This file defines **Windows 11 feature update pinning and release transitions**.
