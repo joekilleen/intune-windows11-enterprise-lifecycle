@@ -157,6 +157,6 @@ If used for:
 
 Proceed next to:
 
-➡ **`docs/01-architecture/01-assumptions-and-constraints.md`**
+**`docs/01-architecture/01-assumptions-and-constraints.md`**
 
 This file defines the operating envelope for **every decision that follows**.
