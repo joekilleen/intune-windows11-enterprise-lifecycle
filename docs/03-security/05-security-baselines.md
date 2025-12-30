@@ -241,7 +241,7 @@ A device without a baseline is **not trusted**.
 
 Proceed to:
 
-➡ **`docs/03-security/06-bitlocker-disk-encryption.md`**
+**`docs/03-security/06-bitlocker-disk-encryption.md`**
 
 This file defines **mandatory encryption enforcement and key management**.
 
