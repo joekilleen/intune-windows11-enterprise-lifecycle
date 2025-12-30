@@ -264,6 +264,6 @@ Applications that cannot meet these standards **do not belong in production**.
 
 Proceed to:
 
-➡ **`docs/05-applications/13-win32-packaging-standards.md`**
+**`docs/05-applications/13-win32-packaging-standards.md`**
 
 This file defines **exact packaging requirements, detection rules, and common anti-patterns**.
